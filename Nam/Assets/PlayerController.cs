@@ -5,17 +5,18 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField]
-    private float walkSpeed;
+    private float walkSpeed;//걷기 속도
 
     [SerializeField]
-    private float runSpeed;
+    private float runSpeed;//달리기 속도
 
-    private float hAxis;
-    private float vAxis;
+    private float hAxis; //좌우 이동
+    private float vAxis; //앞뒤 이동
 
     private Vector3 moveVec;
 
-    private Animator anim;
+    private Animator anim;//애니메이션
+
 
     private void Awake()
     {
@@ -41,7 +42,6 @@ public class PlayerController : MonoBehaviour
 
         anim.SetFloat("x", hAxis);
         anim.SetFloat("y", vAxis);
-
 
     }
 }
