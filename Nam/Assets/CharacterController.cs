@@ -29,7 +29,7 @@ public class CharacterController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        setSpeed();
+       // setSpeed();
         setAnim();
         LookAround();
         Move();
@@ -48,17 +48,25 @@ public class CharacterController : MonoBehaviour
         animator.SetBool("isWalk", isMove);
 
         if (Input.GetKey(KeyCode.LeftShift))
+        {
             animator.SetBool("isRun", true);
+
+            if(moveSpeed < 6.0f)
+            moveSpeed += Time.deltaTime * 3.0f;
+        }
         else if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
             animator.SetBool("isRun", false);
+            moveSpeed = 3.0f;
+        }
     }
 
     private void Move()
     {
         Vector2 moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         isMove = moveInput.magnitude != 0;
-        animator.SetFloat("x", moveInput.x);
-        animator.SetFloat("y", moveInput.y);
+        animator.SetFloat("x", moveInput.x * moveSpeed);
+        animator.SetFloat("y", moveInput.y * moveSpeed);
         if (isMove)
         {
             Vector3 lookForward = new Vector3(cameraArm.forward.x, 0f, cameraArm.forward.z).normalized;
