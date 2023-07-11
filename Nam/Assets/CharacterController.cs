@@ -14,6 +14,8 @@ public class CharacterController : MonoBehaviour
 
     Animator animator;
 
+    bool isMove;
+
     private void Awake()
     {
         animator = characterBody.GetComponent<Animator>();
@@ -28,6 +30,7 @@ public class CharacterController : MonoBehaviour
     void Update()
     {
         setSpeed();
+        setAnim();
         LookAround();
         Move();
     }
@@ -40,11 +43,20 @@ public class CharacterController : MonoBehaviour
             moveSpeed = 2.0f;
     }
 
+    private void setAnim()
+    {
+        animator.SetBool("isWalk", isMove);
+
+        if (Input.GetKey(KeyCode.LeftShift))
+            animator.SetBool("isRun", true);
+        else if (Input.GetKeyUp(KeyCode.LeftShift))
+            animator.SetBool("isRun", false);
+    }
+
     private void Move()
     {
         Vector2 moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        bool isMove = moveInput.magnitude != 0;
-        animator.SetBool("isRun", isMove);
+        isMove = moveInput.magnitude != 0;
         animator.SetFloat("x", moveInput.x);
         animator.SetFloat("y", moveInput.y);
         if (isMove)
