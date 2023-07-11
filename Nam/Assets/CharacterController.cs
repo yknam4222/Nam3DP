@@ -10,18 +10,34 @@ public class CharacterController : MonoBehaviour
     [SerializeField]
     private Transform cameraArm;
 
+    private float moveSpeed;
+
     Animator animator;
+
+    private void Awake()
+    {
+        animator = characterBody.GetComponent<Animator>();
+    }
 
     void Start()
     {
-        animator = characterBody.GetComponent<Animator>();
+        moveSpeed = 3.0f;
     }
 
     // Update is called once per frame
     void Update()
     {
+        setSpeed();
         LookAround();
         Move();
+    }
+
+    private void setSpeed()
+    {
+        if (Input.GetKey(KeyCode.W))
+            moveSpeed = 3.0f;
+        else
+            moveSpeed = 2.0f;
     }
 
     private void Move()
@@ -38,13 +54,13 @@ public class CharacterController : MonoBehaviour
             Vector3 moveDir = lookForward * moveInput.y + lookRight * moveInput.x;
 
             characterBody.forward = lookForward;
-            transform.position += moveDir * Time.deltaTime * 5f;
+            transform.position += moveDir * Time.deltaTime * moveSpeed;
         }
     }
 
     private void LookAround()
     {
-        Vector2 mouseDelta = new Vector2(Input.GetAxis("Mouse X"),Input.GetAxis("Mouse Y"));
+        Vector2 mouseDelta = new Vector2(Input.GetAxis("Mouse X") * 2.0f, Input.GetAxis("Mouse Y") * 2.0f);
         Vector3 canAngle = cameraArm.rotation.eulerAngles;
 
         float x = canAngle.x - mouseDelta.y;
@@ -54,6 +70,7 @@ public class CharacterController : MonoBehaviour
         else
             x = Mathf.Clamp(x, 335f, 361f);
 
-        cameraArm.rotation = Quaternion.Euler(x, canAngle.y + mouseDelta.x, canAngle.z);
+       cameraArm.rotation = Quaternion.Euler(x, canAngle.y + mouseDelta.x, canAngle.z);
     }
+
 }
