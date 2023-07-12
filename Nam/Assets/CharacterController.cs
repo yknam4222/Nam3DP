@@ -11,36 +11,46 @@ public class CharacterController : MonoBehaviour
     private Transform cameraArm;
 
     private float moveSpeed;
+    private float statusSpeed;
 
     Animator animator;
+    Rigidbody rigid;
 
     bool isMove;
+    bool isJump;
 
     private void Awake()
     {
         animator = characterBody.GetComponent<Animator>();
+        rigid = characterBody.GetComponent<Rigidbody>();
     }
 
     void Start()
     {
         moveSpeed = 3.0f;
+        statusSpeed = 0.0f;
     }
 
     // Update is called once per frame
     void Update()
     {
-       // setSpeed();
+        setSpeed();
         setAnim();
         LookAround();
         Move();
+        Jump();
     }
 
     private void setSpeed()
     {
-        if (Input.GetKey(KeyCode.W))
-            moveSpeed = 3.0f;
-        else
-            moveSpeed = 2.0f;
+        Vector2 moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+
+        if (moveInput.x != 0 && moveInput.y == 0)
+            statusSpeed = -1.5f;
+        else if (moveInput.y > 0)
+            statusSpeed = 0.0f;
+        else if (moveInput.y < 0)
+            statusSpeed = -1.0f;
     }
 
     private void setAnim()
@@ -49,15 +59,20 @@ public class CharacterController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            animator.SetBool("isRun", true);
-
-            if(moveSpeed < 6.0f)
-            moveSpeed += Time.deltaTime * 3.0f;
+            if (moveSpeed < 6.0f)
+                moveSpeed += Time.deltaTime * 3.0f;
         }
         else if (Input.GetKeyUp(KeyCode.LeftShift))
+            StartCoroutine(setspeed());
+    }
+
+    IEnumerator setspeed()
+    {
+        while (moveSpeed > 3.0f)
         {
-            animator.SetBool("isRun", false);
-            moveSpeed = 3.0f;
+            moveSpeed -= Time.deltaTime * 3.0f;
+
+            yield return null;
         }
     }
 
@@ -65,8 +80,8 @@ public class CharacterController : MonoBehaviour
     {
         Vector2 moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         isMove = moveInput.magnitude != 0;
-        animator.SetFloat("x", moveInput.x * moveSpeed);
-        animator.SetFloat("y", moveInput.y * moveSpeed);
+        animator.SetFloat("x", moveInput.x * (moveSpeed + statusSpeed));
+        animator.SetFloat("y", moveInput.y * (moveSpeed + statusSpeed));
         if (isMove)
         {
             Vector3 lookForward = new Vector3(cameraArm.forward.x, 0f, cameraArm.forward.z).normalized;
@@ -74,8 +89,24 @@ public class CharacterController : MonoBehaviour
             Vector3 moveDir = lookForward * moveInput.y + lookRight * moveInput.x;
 
             characterBody.forward = lookForward;
-            transform.position += moveDir * Time.deltaTime * moveSpeed;
+            transform.position += moveDir * Time.deltaTime * (moveSpeed + statusSpeed);
         }
+    }
+
+    private void Jump()
+    {
+        if(Input.GetKeyDown(KeyCode.Space) && !isJump)
+        {
+            rigid.AddForce(Vector3.up * 5, ForceMode.Impulse);
+            isJump = true;
+
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Floor")
+            isJump = false;
     }
 
     private void LookAround()
@@ -90,7 +121,8 @@ public class CharacterController : MonoBehaviour
         else
             x = Mathf.Clamp(x, 335f, 361f);
 
-       cameraArm.rotation = Quaternion.Euler(x, canAngle.y + mouseDelta.x, canAngle.z);
+        cameraArm.rotation = Quaternion.Euler(x, canAngle.y + mouseDelta.x, canAngle.z);
+        cameraArm.position = new Vector3(characterBody.position.x, characterBody.position.y + 1.7f, characterBody.position.z);
     }
 
 }
