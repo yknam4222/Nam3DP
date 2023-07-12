@@ -56,8 +56,6 @@ public class CharacterController : MonoBehaviour
 
     private void setAnim()
     {
-        animator.SetBool("isWalk", isMove);
-
         if (Input.GetKey(KeyCode.LeftShift))
         {
             if (moveSpeed < 6.0f)
