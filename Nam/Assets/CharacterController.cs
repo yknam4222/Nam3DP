@@ -17,6 +17,7 @@ public class CharacterController : MonoBehaviour
     Rigidbody rigid;
 
     bool isMove;
+    bool isGround;
     bool isJump;
 
     private void Awake()
@@ -95,20 +96,20 @@ public class CharacterController : MonoBehaviour
 
     private void Jump()
     {
-        if(Input.GetKeyDown(KeyCode.Space) && !isJump)
+        isGround = Physics.Raycast(characterBody.position, Vector3.down, 0.1f, LayerMask.GetMask("Ground"));
+
+
+        if(Input.GetKeyDown(KeyCode.Space) && isGround)
         {
             rigid.AddForce(Vector3.up * 5, ForceMode.Impulse);
-            isJump = true;
 
+            if ((moveSpeed + statusSpeed) > 4.5f)
+                animator.SetTrigger("isRunJump");
+            else
+                animator.SetTrigger("isJump");
         }
-    }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "Floor")
-            isJump = false;
     }
-
     private void LookAround()
     {
         Vector2 mouseDelta = new Vector2(Input.GetAxis("Mouse X") * 2.0f, Input.GetAxis("Mouse Y") * 2.0f);
