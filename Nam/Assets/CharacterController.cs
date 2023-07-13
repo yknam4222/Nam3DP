@@ -96,7 +96,6 @@ public class CharacterController : MonoBehaviour
     {
         isGround = Physics.Raycast(characterBody.position, Vector3.down, 0.1f, LayerMask.GetMask("Ground"));
 
-
         if(Input.GetKeyDown(KeyCode.Space) && isGround)
         {
             rigid.AddForce(Vector3.up * 5, ForceMode.Impulse);
