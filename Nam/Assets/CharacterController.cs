@@ -100,7 +100,7 @@ public class CharacterController : MonoBehaviour
         {
             rigid.AddForce(Vector3.up * 5, ForceMode.Impulse);
 
-            if ((moveSpeed + statusSpeed) > 4.5f)
+            if ((moveSpeed + statusSpeed) > 5.0f)
                 animator.SetTrigger("isRunJump");
             else
                 animator.SetTrigger("isJump");
