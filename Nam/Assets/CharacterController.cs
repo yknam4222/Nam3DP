@@ -74,6 +74,11 @@ public class CharacterController : MonoBehaviour
             animator.SetTrigger("EquipBow");
             animator.SetBool("isBow", true);
         }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            animator.SetTrigger("UnEquipBow");
+            animator.SetBool("isBow", false);
+        }
     }
 
     IEnumerator setspeed()
@@ -100,6 +105,7 @@ public class CharacterController : MonoBehaviour
 
             characterBody.forward = lookForward;
             transform.position += moveDir * Time.deltaTime * (moveSpeed + statusSpeed);
+            //rigid.velocity = moveDir * Time.deltaTime * (moveSpeed + statusSpeed);
         }
     }
 
