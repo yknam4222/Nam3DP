@@ -40,6 +40,8 @@ public class CharacterController : MonoBehaviour
         LookAround();
         Move();
         Jump();
+
+        changeIdle();
     }
 
     private void setSpeed()
@@ -63,6 +65,15 @@ public class CharacterController : MonoBehaviour
         }
         else if (Input.GetKeyUp(KeyCode.LeftShift))
             StartCoroutine(setspeed());
+    }
+
+    private void changeIdle()
+    {
+        if(Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            animator.SetTrigger("EquipBow");
+            animator.SetBool("isBow", true);
+        }
     }
 
     IEnumerator setspeed()
