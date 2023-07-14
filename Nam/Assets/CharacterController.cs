@@ -79,6 +79,11 @@ public class CharacterController : MonoBehaviour
             animator.SetTrigger("UnEquipBow");
             animator.SetBool("isBow", false);
         }
+
+        if(Input.GetMouseButton(1))
+        {
+            animator.SetTrigger("DrawArrow");
+        }    
     }
 
     IEnumerator setspeed()
@@ -97,8 +102,8 @@ public class CharacterController : MonoBehaviour
         isMove = moveInput.magnitude != 0;
         animator.SetFloat("x", moveInput.x * (moveSpeed + statusSpeed));
         animator.SetFloat("y", moveInput.y * (moveSpeed + statusSpeed));
-        if (isMove)
-        {
+       // if (isMove)
+       // {
             Vector3 lookForward = new Vector3(cameraArm.forward.x, 0f, cameraArm.forward.z).normalized;
             Vector3 lookRight = new Vector3(cameraArm.right.x, 0f, cameraArm.right.z).normalized;
             Vector3 moveDir = lookForward * moveInput.y + lookRight * moveInput.x;
@@ -106,7 +111,7 @@ public class CharacterController : MonoBehaviour
             characterBody.forward = lookForward;
             transform.position += moveDir * Time.deltaTime * (moveSpeed + statusSpeed);
             //rigid.velocity = moveDir * Time.deltaTime * (moveSpeed + statusSpeed);
-        }
+      //  }
     }
 
     private void Jump()
