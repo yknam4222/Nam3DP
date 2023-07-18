@@ -10,6 +10,9 @@ public class CharacterController : MonoBehaviour
     [SerializeField]
     private Transform cameraArm;
 
+    public GameObject bowString;
+    public GameObject righthand;
+
     private float moveSpeed;
     private float statusSpeed;
 
@@ -71,6 +74,7 @@ public class CharacterController : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Alpha1))
         {
+            bowString.transform.position = righthand.transform.position;
             animator.SetTrigger("EquipBow");
             animator.SetBool("isBow", true);
         }
