@@ -74,9 +74,13 @@ public class CharacterController : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Alpha1))
         {
+            if(!animator.GetBool("isBow"))
+            {
+
             bowString.transform.position = righthand.transform.position;
             animator.SetTrigger("EquipBow");
             animator.SetBool("isBow", true);
+            }
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
@@ -86,8 +90,24 @@ public class CharacterController : MonoBehaviour
 
         if(Input.GetMouseButton(1))
         {
+            if(!animator.GetBool("isBowAim"))
+            {
             animator.SetTrigger("DrawArrow");
+            animator.SetBool("isBowAim", true);
+                animator.SetBool("isBow", false);
+            }
         }    
+
+        if(Input.GetMouseButtonUp(1))
+        {
+
+             if(animator.GetBool("isBowAim"))
+            {
+                animator.SetTrigger("BowShot");
+            animator.SetBool("isBowAim", false);
+                animator.SetBool("isBow", true);
+            }
+        }
     }
 
     IEnumerator setspeed()
