@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+
+}
+
+    /*
     [SerializeField]
     private float walkSpeed;//걷기 속도
 
@@ -44,4 +48,4 @@ public class PlayerController : MonoBehaviour
         anim.SetFloat("y", vAxis);
 
     }
-}
+     */
