@@ -247,6 +247,18 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 100
   moveSpeed: 3
+--- !u!114 &314481634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 314481626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e960a65070aeea147bd6d67fd17e3cf7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &338445166 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4620178347958848, guid: d03c4353fda446d4f8df56d422578d64, type: 3}

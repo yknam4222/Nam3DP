@@ -2,8 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Player))]
 public class PlayerController : MonoBehaviour
 {
+    public Player player { get; private set; }
+
+    private bool isGround;
+
+    private void Start()
+    {
+        player = GetComponent<Player>();
+    }
+
+    private void Update()
+    {
+        
+    }
+
 
 }
 

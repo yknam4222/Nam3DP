@@ -5,6 +5,7 @@ using UnitController;
 
 public class Player : MonoBehaviour
 {
+    public bool isDied { get; private set; } = false;
     public static Player Instance {get { return instance; } }
     public Rigidbody rigidBody { get; private set; }
     public Animator animator { get; private set; }
@@ -38,6 +39,7 @@ public class Player : MonoBehaviour
             animator = GetComponent<Animator>();
             capsuleCollider = GetComponent<CapsuleCollider>();
 
+            InitStateMachine();
             DontDestroyOnLoad(gameObject);
             return;
         }
@@ -52,14 +54,8 @@ public class Player : MonoBehaviour
         this.moveSpeed = moveSpeed;
     }
 
-    void Start()
+    private void InitStateMachine()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        stateMachine = new StateMachine(StateName.MOVE, new MoveState());
     }
 }
