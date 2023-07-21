@@ -47,6 +47,16 @@ public class Player : MonoBehaviour
             DestroyImmediate(gameObject);
     }
 
+    private void Update()
+    {
+        stateMachine?.UpdateState();
+    }
+
+    private void FixedUpdate()
+    {
+        stateMachine?.FixedUpdateState();
+    }
+
     public void OnUpdateStats(float maxHP, float currentHP, float moveSpeed)
     {
         this.maxHP = maxHP;
