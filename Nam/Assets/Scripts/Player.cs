@@ -30,12 +30,13 @@ public class Player : MonoBehaviour
     #region 캐릭터 스텟
     public float MaxHP { get { return maxHP; } }
     public float CurrentHP { get { return maxHP; } }
-    public float MoveSpeed { get { return moveSpeed; } }
+    public float moveSpeed { get; set; } = 3.0f;
     public float statusSpeed { get;  set; } = 0.0f;
 
     [SerializeField] protected float maxHP;
     [SerializeField] protected float currentHP;
-    [SerializeField] protected float moveSpeed;
+
+    [SerializeField] private float currentSpeed; //테스트용
     #endregion
 
     private void Awake()
@@ -60,6 +61,8 @@ public class Player : MonoBehaviour
     private void Update()
     {
         stateMachine?.UpdateState();
+
+        currentSpeed = moveSpeed + statusSpeed; //테스트용
     }
 
     private void FixedUpdate()
@@ -76,6 +79,6 @@ public class Player : MonoBehaviour
 
     private void InitStateMachine()
     {
-        stateMachine = new StateMachine(StateName.MOVE, new MoveState());
+        stateMachine = new StateMachine(StateName.IDLE, new IdleState());
     }
 }

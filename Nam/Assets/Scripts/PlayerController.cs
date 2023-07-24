@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
     public Player player { get; private set; }
     public Vector3 inputDirection { get; private set; }
 
+    IdleState idleState;
+
     Transform groundCheck;
     private int groundLayer;
     public bool isGrounded { get; private set; }
@@ -23,6 +25,8 @@ public class PlayerController : MonoBehaviour
         player = GetComponent<Player>();
         groundLayer = 1 << LayerMask.NameToLayer("Ground");
 
+        idleState = player.stateMachine.GetState(StateName.MOVE) as IdleState;
+
     }
 
     private void Update()
@@ -30,12 +34,38 @@ public class PlayerController : MonoBehaviour
         SetDir();
         LookAround();
         setSpeed();
+        Run();
+        InputKey();
     }
 
     public bool IsGrounded()
     {
         Vector3 boxSize = new Vector3(transform.lossyScale.x, 0.4f, transform.lossyScale.z);
         return Physics.CheckBox(groundCheck.position, boxSize, Quaternion.identity, groundLayer);
+    }
+
+    private void Run()
+    {
+        if (player.stateMachine.CurrentState is IdleState)
+        {
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                if (player.moveSpeed < 6.0f)
+                    player.moveSpeed += Time.deltaTime * 3.0f;
+            }
+            else if (Input.GetKeyUp(KeyCode.LeftShift))
+                StartCoroutine(reduceSpeed());
+        }
+    }
+
+    IEnumerator reduceSpeed()
+    {
+        while (player.moveSpeed > 3.0f)
+        {
+            player.moveSpeed -= Time.deltaTime * 3.0f;
+
+            yield return null;
+        }
     }
 
     private void setSpeed()
@@ -48,9 +78,17 @@ public class PlayerController : MonoBehaviour
             player.statusSpeed = -1.0f;
     }
 
+    private void InputKey()
+    {
+        if(Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            //player.stateMachine.ChangState(StateName.BowIdle);
+        }
+    }
+
     private void SetDir()
     {
-        if(player.isDied)
+        if (player.isDied)
         {
             moveInput = Vector2.zero;
             return;
@@ -80,45 +118,45 @@ public class PlayerController : MonoBehaviour
     }
 }
 
-    /*
-    [SerializeField]
-    private float walkSpeed;//걷기 속도
+/*
+[SerializeField]
+private float walkSpeed;//걷기 속도
 
-    [SerializeField]
-    private float runSpeed;//달리기 속도
+[SerializeField]
+private float runSpeed;//달리기 속도
 
-    private float hAxis; //좌우 이동
-    private float vAxis; //앞뒤 이동
+private float hAxis; //좌우 이동
+private float vAxis; //앞뒤 이동
 
-    private Vector3 moveVec;
+private Vector3 moveVec;
 
-    private Animator anim;//애니메이션
+private Animator anim;//애니메이션
 
 
-    private void Awake()
-    {
-        anim = GetComponent<Animator>();
-    }
+private void Awake()
+{
+    anim = GetComponent<Animator>();
+}
 
-    private void FixedUpdate()
-    {
-        hAxis = Input.GetAxis("Horizontal");
-        vAxis = Input.GetAxis("Vertical");
+private void FixedUpdate()
+{
+    hAxis = Input.GetAxis("Horizontal");
+    vAxis = Input.GetAxis("Vertical");
 
-        moveVec = new Vector3(hAxis, 0, vAxis).normalized;
+    moveVec = new Vector3(hAxis, 0, vAxis).normalized;
 
-        transform.position += moveVec * walkSpeed * Time.deltaTime;
-    }
+    transform.position += moveVec * walkSpeed * Time.deltaTime;
+}
 
-    private void Update()
-    {
-        if (hAxis == 0 && vAxis == 0)
-            anim.SetBool("isRun", false);
-        else
-            anim.SetBool("isRun", true);
+private void Update()
+{
+    if (hAxis == 0 && vAxis == 0)
+        anim.SetBool("isRun", false);
+    else
+        anim.SetBool("isRun", true);
 
-        anim.SetFloat("x", hAxis);
-        anim.SetFloat("y", vAxis);
+    anim.SetFloat("x", hAxis);
+    anim.SetFloat("y", vAxis);
 
-    }
-     */
+}
+ */
