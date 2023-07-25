@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     public Vector3 inputDirection { get; private set; }
 
     IdleState idleState;
+    BowState bowState;
 
     Transform groundCheck;
     private int groundLayer;
@@ -26,7 +27,7 @@ public class PlayerController : MonoBehaviour
         groundLayer = 1 << LayerMask.NameToLayer("Ground");
 
         idleState = player.stateMachine.GetState(StateName.MOVE) as IdleState;
-
+        bowState = player.stateMachine.GetState(StateName.BOWIDLE) as BowState;
     }
 
     private void Update()
@@ -46,7 +47,7 @@ public class PlayerController : MonoBehaviour
 
     private void Run()
     {
-        if (player.stateMachine.CurrentState is IdleState)
+        if (player.stateMachine.CurrentState is IdleState || player.stateMachine.CurrentState is BowState)
         {
             if (Input.GetKey(KeyCode.LeftShift))
             {
@@ -82,7 +83,7 @@ public class PlayerController : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Alpha1))
         {
-            //player.stateMachine.ChangState(StateName.BowIdle);
+            player.stateMachine.ChangeState(StateName.BOWIDLE);
         }
     }
 

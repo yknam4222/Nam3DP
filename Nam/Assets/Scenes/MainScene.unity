@@ -247,8 +247,7 @@ MonoBehaviour:
   cameraArm: {fileID: 1834597158}
   maxHP: 100
   currentHP: 100
-  moveSpeed: 3
-  statusSpeed: 0
+  currentSpeed: 0
 --- !u!114 &314481634
 MonoBehaviour:
   m_ObjectHideFlags: 0

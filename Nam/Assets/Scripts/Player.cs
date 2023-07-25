@@ -6,7 +6,7 @@ using UnitController;
 public class Player : MonoBehaviour
 {
     public bool isDied { get; private set; } = false;
-    public static Player Instance {get { return instance; } }
+    public static Player Instance { get { return instance; } }
     public Rigidbody rigidBody { get; private set; }
     public Animator animator { get; private set; }
     public PlayerController Controller { get; private set; }
@@ -31,7 +31,7 @@ public class Player : MonoBehaviour
     public float MaxHP { get { return maxHP; } }
     public float CurrentHP { get { return maxHP; } }
     public float moveSpeed { get; set; } = 3.0f;
-    public float statusSpeed { get;  set; } = 0.0f;
+    public float statusSpeed { get; set; } = 0.0f;
 
     [SerializeField] protected float maxHP;
     [SerializeField] protected float currentHP;
@@ -64,7 +64,6 @@ public class Player : MonoBehaviour
 
         currentSpeed = moveSpeed + statusSpeed; //테스트용
     }
-
     private void FixedUpdate()
     {
         stateMachine?.FixedUpdateState();
@@ -80,5 +79,6 @@ public class Player : MonoBehaviour
     private void InitStateMachine()
     {
         stateMachine = new StateMachine(StateName.IDLE, new IdleState());
+        stateMachine.AddState(StateName.BOWIDLE, new BowState());
     }
 }
