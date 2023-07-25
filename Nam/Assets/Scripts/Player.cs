@@ -20,13 +20,6 @@ public class Player : MonoBehaviour
 
     private static Player instance;
 
-    #region 카메라
-    public Transform CameraArm { get { return cameraArm; } }
-
-    [SerializeField]
-    private Transform cameraArm;
-    #endregion
-
     #region 캐릭터 스텟
     public float MaxHP { get { return maxHP; } }
     public float CurrentHP { get { return maxHP; } }
@@ -79,6 +72,5 @@ public class Player : MonoBehaviour
     private void InitStateMachine()
     {
         stateMachine = new StateMachine(StateName.IDLE, new IdleState());
-        stateMachine.AddState(StateName.BOWIDLE, new BowState());
     }
 }
