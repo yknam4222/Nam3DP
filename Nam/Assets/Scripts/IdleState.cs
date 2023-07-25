@@ -19,6 +19,8 @@ namespace UnitController
 
         public override void OnFixedUpdateState()
         {
+            Player.Instance.Controller.LookAt(Player.Instance.Controller.inputDirection);
+            Player.Instance.rigidBody.velocity = Player.Instance.Controller.inputDirection * 3.0f;
         }
 
         public override void OnExitState()

@@ -28,6 +28,11 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
     }
+    public bool IsGrounded()
+    {
+        Vector3 boxSize = new Vector3(transform.lossyScale.x, 0.4f, transform.lossyScale.z);
+        return Physics.CheckBox(groundCheck.position, boxSize, Quaternion.identity, groundLayer);
+    }
 
     public void OnMoveInput(InputAction.CallbackContext context)
     {
@@ -39,6 +44,18 @@ public class PlayerController : MonoBehaviour
 
         Vector2 input = context.ReadValue<Vector2>();
         inputDirection = new Vector3(input.x, 0f, input.y);
+
+        transform.rotation = Quaternion.LookRotation(inputDirection);
+        transform.Translate(Vector3.forward * Time.deltaTime * 3.0f);
+    }
+
+    public void LookAt(Vector3 direction)
+    {
+        if(direction != Vector3.zero)
+        {
+            Quaternion targetAngle = Quaternion.LookRotation(direction);
+            transform.rotation = targetAngle;
+        }
     }
 
     
