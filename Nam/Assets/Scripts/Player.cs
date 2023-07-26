@@ -26,6 +26,8 @@ public class Player : MonoBehaviour
     public float moveSpeed { get; set; } = 3.0f;
     public float statusSpeed { get; set; } = 0.0f;
 
+    public float CurrnetSpeed { get { return currentSpeed; } }
+
     [SerializeField] protected float maxHP;
     [SerializeField] protected float currentHP;
 

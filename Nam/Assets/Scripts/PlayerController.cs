@@ -9,13 +9,20 @@ using UnitController;
 public class PlayerController : MonoBehaviour
 {
     public Player player { get; private set; }
+
+    [SerializeField]
+    private Transform cameraArm;
+
     public Vector3 inputDirection { get; private set; }
+    public Vector3 moveDir { get; private set; }
 
     IdleState idleState;
 
     Transform groundCheck;
     private int groundLayer;
     public bool isGrounded { get; private set; }
+
+    bool isSprint;
 
     private void Start()
     {
@@ -27,6 +34,8 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        PlayerRotation();
+        SetSprintSpeed();
     }
     public bool IsGrounded()
     {
@@ -45,20 +54,50 @@ public class PlayerController : MonoBehaviour
         Vector2 input = context.ReadValue<Vector2>();
         inputDirection = new Vector3(input.x, 0f, input.y);
 
-        transform.rotation = Quaternion.LookRotation(inputDirection);
-        transform.Translate(Vector3.forward * Time.deltaTime * 3.0f);
+        //transform.rotation = Quaternion.LookRotation(inputDirection);
+        //transform.Translate(Vector3.forward * Time.deltaTime * 3.0f);
     }
 
-    public void LookAt(Vector3 direction)
+    public void OnSprintInput(InputAction.CallbackContext context)
     {
-        if(direction != Vector3.zero)
+        if (context.started)
         {
-            Quaternion targetAngle = Quaternion.LookRotation(direction);
-            transform.rotation = targetAngle;
+            isSprint = true;
+        }
+        else if (context.canceled)
+        {
+            isSprint = false;
+            StartCoroutine(reduceSpeed());
         }
     }
 
-    
+    void SetSprintSpeed()
+    {
+        if (isSprint)
+        {
+            if (player.moveSpeed < 6.0f)
+                player.moveSpeed += Time.deltaTime * 3.0f;
+        }
+    }
+
+    IEnumerator reduceSpeed()
+    {
+        while(player.moveSpeed > 3.0f)
+        {
+            player.moveSpeed -= Time.deltaTime * 3.0f;
+
+            yield return null;
+        }
+    }
+
+    public void PlayerRotation()
+    {
+        Vector3 lookForward = new Vector3(cameraArm.forward.x, 0f, cameraArm.forward.z).normalized;
+        Vector3 lookRight = new Vector3(cameraArm.right.x, 0f, cameraArm.right.z).normalized;
+        moveDir = lookForward * inputDirection.z + lookRight * inputDirection.x;
+
+        transform.forward = lookForward;
+    }
 }
 
 /*
