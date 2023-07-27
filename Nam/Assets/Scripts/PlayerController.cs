@@ -34,7 +34,6 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        PlayerMove();
         PlayerRotation();
         SetSprintSpeed();
     }
@@ -44,22 +43,7 @@ public class PlayerController : MonoBehaviour
         return Physics.CheckBox(groundCheck.position, boxSize, Quaternion.identity, groundLayer);
     }
 
-    //public void OnMoveInput(InputAction.CallbackContext context)
-    //{
-    //    if (player.isDied)
-    //    {
-    //        inputDirection = Vector3.zero;
-    //        return;
-    //    }
-
-    //    Vector2 input = context.ReadValue<Vector2>();
-    //    inputDirection = new Vector3(input.x, 0f, input.y);
-
-    //    //transform.rotation = Quaternion.LookRotation(inputDirection);
-    //    //transform.Translate(Vector3.forward * Time.deltaTime * 3.0f);
-    //}
-
-    public void PlayerMove()
+    public void OnMoveInput(InputAction.CallbackContext context)
     {
         if (player.isDied)
         {
@@ -67,9 +51,18 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        inputDirection = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
+        Vector2 input = context.ReadValue<Vector2>();
+        inputDirection = new Vector3(input.x, 0f, input.y);
 
+        //transform.rotation = Quaternion.LookRotation(inputDirection);
+        //transform.Translate(Vector3.forward * Time.deltaTime * 3.0f);
     }
+
+    public void OnMoveAxis()
+    {
+        inputDirection = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
+    }
+
     public void OnSprintInput(InputAction.CallbackContext context)
     {
         if (context.started)
@@ -109,6 +102,15 @@ public class PlayerController : MonoBehaviour
         moveDir = lookForward * inputDirection.z + lookRight * inputDirection.x;
 
         transform.forward = lookForward;
+    }
+
+    public void LookAt(Vector3 direction)
+    {
+        if (direction != Vector3.zero)
+        {
+            Quaternion targetAngle = Quaternion.LookRotation(direction);
+            transform.rotation = targetAngle;
+        }
     }
 }
 
