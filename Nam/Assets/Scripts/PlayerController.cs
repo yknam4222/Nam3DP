@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        PlayerMove();
         PlayerRotation();
         SetSprintSpeed();
     }
@@ -43,7 +44,22 @@ public class PlayerController : MonoBehaviour
         return Physics.CheckBox(groundCheck.position, boxSize, Quaternion.identity, groundLayer);
     }
 
-    public void OnMoveInput(InputAction.CallbackContext context)
+    //public void OnMoveInput(InputAction.CallbackContext context)
+    //{
+    //    if (player.isDied)
+    //    {
+    //        inputDirection = Vector3.zero;
+    //        return;
+    //    }
+
+    //    Vector2 input = context.ReadValue<Vector2>();
+    //    inputDirection = new Vector3(input.x, 0f, input.y);
+
+    //    //transform.rotation = Quaternion.LookRotation(inputDirection);
+    //    //transform.Translate(Vector3.forward * Time.deltaTime * 3.0f);
+    //}
+
+    public void PlayerMove()
     {
         if (player.isDied)
         {
@@ -51,13 +67,9 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        Vector2 input = context.ReadValue<Vector2>();
-        inputDirection = new Vector3(input.x, 0f, input.y);
+        inputDirection = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
 
-        //transform.rotation = Quaternion.LookRotation(inputDirection);
-        //transform.Translate(Vector3.forward * Time.deltaTime * 3.0f);
     }
-
     public void OnSprintInput(InputAction.CallbackContext context)
     {
         if (context.started)

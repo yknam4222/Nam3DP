@@ -8,7 +8,6 @@ namespace UnitController
     public class IdleState : BaseState
     {
         
-
         public override void OnEnterState()
         {
         }
@@ -22,7 +21,7 @@ namespace UnitController
             float moveSpeed = Player.Instance.moveSpeed + Player.Instance.statusSpeed;
             Player.Instance.animator.SetFloat("x", Player.Instance.Controller.inputDirection.x * moveSpeed);
             Player.Instance.animator.SetFloat("y", Player.Instance.Controller.inputDirection.z * moveSpeed);
-            Player.Instance.transform.position += Player.Instance.Controller.moveDir * Time.deltaTime  *moveSpeed;
+            Player.Instance.transform.position += Player.Instance.Controller.moveDir.normalized * Time.deltaTime  * moveSpeed;
         }
 
         public override void OnExitState()
