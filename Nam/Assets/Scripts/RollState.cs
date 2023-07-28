@@ -19,7 +19,6 @@ namespace UnitController
 
         public override void OnEnterState()
         {
-            //Player.Instance.animator.applyRootMotion = false;
             isRoll = true;
             Roll();
         }
@@ -39,7 +38,6 @@ namespace UnitController
 
         public override void OnExitState()
         {
-            Player.Instance.animator.applyRootMotion = true;
             Player.Instance.animator.ResetTrigger(Hash_rollTrigger);
             Player.Instance.animator.SetBool(Hash_rollisBool, false);
         }

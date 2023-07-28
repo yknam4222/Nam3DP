@@ -63,18 +63,22 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
-
+        if (context.performed)
             player.stateMachine.ChangeState(StateName.ROLL);
-            
+
     }
 
     public void PlayerRotation()
     {
+
         Vector3 lookForward = new Vector3(cameraArm.forward.x, 0f, cameraArm.forward.z).normalized;
         Vector3 lookRight = new Vector3(cameraArm.right.x, 0f, cameraArm.right.z).normalized;
         moveDir = lookForward * inputDirection.z + lookRight * inputDirection.x;
 
-        transform.forward = moveDir;
+        bool isMove = inputDirection.magnitude != 0;
+        if (isMove && !(player.stateMachine.CurrentState is RollState))
+            transform.forward = moveDir;
+
     }
 
     public void LookAt(Vector3 direction)
