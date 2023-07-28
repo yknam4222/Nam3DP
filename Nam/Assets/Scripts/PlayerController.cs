@@ -82,6 +82,11 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(setspeed());
     }
 
+    public void OnTargetEnemy(InputAction.CallbackContext context)
+    {
+
+    }
+
     IEnumerator setspeed()
     {
         while (player.moveSpeed > 3.0f)

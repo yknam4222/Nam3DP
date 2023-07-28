@@ -5,6 +5,8 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     private GameObject Target;
+    [SerializeField]
+    private Transform mainCamera;
 
     void Start()
     {
@@ -31,6 +33,11 @@ public class CameraController : MonoBehaviour
 
         transform.rotation = Quaternion.Euler(x, canAngle.y + mouseDelta.x, canAngle.z);
         transform.position = new Vector3(Target.transform.position.x, Target.transform.position.y + 1.7f, Target.transform.position.z);
+    }
+
+    private void TargetLook()
+    {
+
     }
 
 }

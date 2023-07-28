@@ -252,6 +252,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a1955be57b227d44b29921a7cb3d7bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCamera: {fileID: 226235336}
 --- !u!1 &966694796
 GameObject:
   m_ObjectHideFlags: 0
@@ -472,10 +473,6 @@ MonoBehaviour:
     m_ActionId: 2632216d-faa6-458b-8736-1819ccc38cef
     m_ActionName: PlayerActions/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 569b091e-58c8-4c93-9e62-4e3477f481f9
-    m_ActionName: PlayerActions/Jump[/Keyboard/space]
-  - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1448158719}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
@@ -491,6 +488,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: aaf72fc4-3b95-4de1-835d-bf4fb2d9a876
     m_ActionName: PlayerActions/Sprint[/Keyboard/leftShift]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 85fe52a5-2595-45fe-8851-b4cc74809f33
+    m_ActionName: PlayerActions/New action
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: PC
   m_DefaultActionMap: PlayerActions
