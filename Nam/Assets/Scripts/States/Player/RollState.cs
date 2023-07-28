@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace UnitController
 {
-
     public class RollState : BaseState
     {
         public bool isRoll { get;  set; }

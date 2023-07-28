@@ -18,10 +18,13 @@ public class PlayerController : MonoBehaviour
 
     IdleState idleState;
     RollState rollState;
+    TargetState targetState;
 
     Transform groundCheck;
     private int groundLayer;
     public bool isGrounded { get; private set; }
+
+    public bool isTargetting { get; private set; } = false;
 
     private void Start()
     {
@@ -30,6 +33,7 @@ public class PlayerController : MonoBehaviour
 
         idleState = player.stateMachine.GetState(StateName.IDLE) as IdleState;
         rollState = player.stateMachine.GetState(StateName.ROLL) as RollState;
+        targetState = player.stateMachine.GetState(StateName.IDLE_TARGET) as TargetState;
     }
 
     private void Update()
@@ -84,7 +88,14 @@ public class PlayerController : MonoBehaviour
 
     public void OnTargetEnemy(InputAction.CallbackContext context)
     {
-
+        if(context.performed && !isTargetting)
+        {
+            isTargetting = true;
+            player.stateMachine.ChangeState(StateName.IDLE_TARGET);
+        } 
+        else if(context.performed && isTargetting)
+        {
+        }
     }
 
     IEnumerator setspeed()
@@ -106,8 +117,9 @@ public class PlayerController : MonoBehaviour
 
         bool isMove = inputDirection.magnitude != 0;
         if (isMove && !(player.stateMachine.CurrentState is RollState))
+        {
             transform.forward = moveDir;
-
+        }
     }
 
     public void LookAt(Vector3 direction)
