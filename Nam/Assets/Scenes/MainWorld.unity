@@ -389,6 +389,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 0a014829dc2b8bf49ba2ba26444289a3, type: 2}
+    - target: {fileID: 5866666021909216657, guid: 6ccdfc0067b89af4c83bbd84d378d07f, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ccdfc0067b89af4c83bbd84d378d07f, type: 3}
 --- !u!1 &1448158709 stripped
@@ -475,7 +479,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1448158719}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: OnSprintInput
+        m_MethodName: OnRollInput
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -522,6 +526,18 @@ MonoBehaviour:
   maxHP: 0
   currentHP: 0
   currentSpeed: 0
+--- !u!114 &1448158723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1448158709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52a20659412cb7f4e8e355f3859a07ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2134317327
 GameObject:
   m_ObjectHideFlags: 0

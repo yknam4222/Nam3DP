@@ -74,5 +74,6 @@ public class Player : MonoBehaviour
     private void InitStateMachine()
     {
         stateMachine = new StateMachine(StateName.IDLE, new IdleState());
+        stateMachine.AddState(StateName.ROLL, new RollState());
     }
 }

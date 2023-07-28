@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     public Vector3 moveDir { get; private set; }
 
     IdleState idleState;
+    RollState rollState;
 
     Transform groundCheck;
     private int groundLayer;
@@ -27,7 +28,8 @@ public class PlayerController : MonoBehaviour
         player = GetComponent<Player>();
         groundLayer = 1 << LayerMask.NameToLayer("Ground");
 
-        idleState = player.stateMachine.GetState(StateName.MOVE) as IdleState;
+        idleState = player.stateMachine.GetState(StateName.IDLE) as IdleState;
+        rollState = player.stateMachine.GetState(StateName.ROLL) as RollState;
     }
 
     private void Update()
@@ -57,7 +59,13 @@ public class PlayerController : MonoBehaviour
 
     public void OnRollInput(InputAction.CallbackContext context)
     {
+        if (player.isDied)
+        {
+            return;
+        }
 
+            player.stateMachine.ChangeState(StateName.ROLL);
+            
     }
 
     public void PlayerRotation()
