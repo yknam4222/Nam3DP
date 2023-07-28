@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         PlayerRotation();
+        OnSprintInput();
     }
     public bool IsGrounded()
     {
@@ -65,7 +66,30 @@ public class PlayerController : MonoBehaviour
         }
         if (context.performed)
             player.stateMachine.ChangeState(StateName.ROLL);
+    }
 
+    public void OnSprintInput()
+    {
+        if (player.isDied)
+            return;
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            if (player.moveSpeed < 6.0f)
+                player.moveSpeed += Time.deltaTime * 5.0f;
+        }
+        else if (Input.GetKeyUp(KeyCode.LeftShift))
+            StartCoroutine(setspeed());
+    }
+
+    IEnumerator setspeed()
+    {
+        while (player.moveSpeed > 3.0f)
+        {
+            player.moveSpeed -= Time.deltaTime * 5.0f;
+
+            yield return null;
+        }
     }
 
     public void PlayerRotation()
