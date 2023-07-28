@@ -24,7 +24,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Sprint",
+                    "name": "Roll",
                     "type": "Button",
                     "id": "aaf72fc4-3b95-4de1-835d-bf4fb2d9a876",
                     "expectedControlType": "Button",
@@ -107,7 +107,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "PC",
-                    "action": "Sprint",
+                    "action": "Roll",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -22,8 +22,6 @@ public class PlayerController : MonoBehaviour
     private int groundLayer;
     public bool isGrounded { get; private set; }
 
-    bool isSprint;
-
     private void Start()
     {
         player = GetComponent<Player>();
@@ -35,7 +33,6 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         PlayerRotation();
-        SetSprintSpeed();
     }
     public bool IsGrounded()
     {
@@ -58,41 +55,9 @@ public class PlayerController : MonoBehaviour
         //transform.Translate(Vector3.forward * Time.deltaTime * 3.0f);
     }
 
-    public void OnMoveAxis()
+    public void OnRollInput(InputAction.CallbackContext context)
     {
-        inputDirection = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
-    }
 
-    public void OnSprintInput(InputAction.CallbackContext context)
-    {
-        if (context.started)
-        {
-            isSprint = true;
-        }
-        else if (context.canceled)
-        {
-            isSprint = false;
-            StartCoroutine(reduceSpeed());
-        }
-    }
-
-    void SetSprintSpeed()
-    {
-        if (isSprint)
-        {
-            if (player.moveSpeed < 6.0f)
-                player.moveSpeed += Time.deltaTime * 3.0f;
-        }
-    }
-
-    IEnumerator reduceSpeed()
-    {
-        while(player.moveSpeed > 3.0f)
-        {
-            player.moveSpeed -= Time.deltaTime * 3.0f;
-
-            yield return null;
-        }
     }
 
     public void PlayerRotation()
@@ -101,7 +66,7 @@ public class PlayerController : MonoBehaviour
         Vector3 lookRight = new Vector3(cameraArm.right.x, 0f, cameraArm.right.z).normalized;
         moveDir = lookForward * inputDirection.z + lookRight * inputDirection.x;
 
-        transform.forward = lookForward;
+        transform.forward = moveDir;
     }
 
     public void LookAt(Vector3 direction)
