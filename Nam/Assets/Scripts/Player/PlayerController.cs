@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private Transform cameraArm;
 
+    private Transform target;
+
     public Vector3 inputDirection { get; private set; }
     public Vector3 moveDir { get; private set; }
 
@@ -44,6 +46,7 @@ public class PlayerController : MonoBehaviour
     {
         PlayerRotation();
         OnSprintInput();
+        FindTarget();
     }
     public bool IsGrounded()
     {
@@ -144,6 +147,36 @@ public class PlayerController : MonoBehaviour
             Quaternion targetAngle = Quaternion.LookRotation(direction);
             transform.rotation = targetAngle;
         }
+    }
+
+    public void FindTarget()
+    {
+        Collider[] cols = Physics.OverlapSphere(transform.position, 10f, 1 << 6);
+
+        if (cols.Length > 0)
+        {
+
+            for (int i = 0; i < cols.Length; i++)
+            {
+                if (cols[i].tag == "Enemy")
+                {
+                    Debug.Log("Physics Enemy : Target found");
+                    target = cols[i].gameObject.transform;
+                    Debug.Log(target.name);
+                }
+            }
+        }
+        else
+        {
+            Debug.Log("Physics Enemy : Target lost");
+            target = null;
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, 10f);
     }
 }
 
