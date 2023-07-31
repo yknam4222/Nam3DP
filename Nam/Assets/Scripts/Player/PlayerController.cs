@@ -118,8 +118,12 @@ public class PlayerController : MonoBehaviour
         bool isMove = inputDirection.magnitude != 0;
         if (isMove && !(player.stateMachine.CurrentState is RollState))
         {
-            transform.forward = moveDir;
+            if (player.stateMachine.CurrentState is IdleState)
+                transform.forward = moveDir;
+            else if (player.stateMachine.CurrentState is TargetState)
+                transform.forward = lookForward;
         }
+        
     }
 
     public void LookAt(Vector3 direction)
