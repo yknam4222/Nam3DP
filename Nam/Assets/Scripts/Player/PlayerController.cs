@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private Transform cameraArm;
 
+    public Transform targetEnemy { get; private set; }
     private Transform target;
 
     public Vector3 inputDirection { get; private set; }
@@ -46,7 +47,8 @@ public class PlayerController : MonoBehaviour
     {
         PlayerRotation();
         OnSprintInput();
-        FindTarget();
+        if (!isTargetting)
+            FindTarget();
     }
     public bool IsGrounded()
     {
@@ -100,12 +102,14 @@ public class PlayerController : MonoBehaviour
 
     public void OnTargetEnemy(InputAction.CallbackContext context)
     {
-        if(context.performed && !isTargetting)
+        if (context.performed && !isTargetting && target != null)
         {
             isTargetting = true;
+            targetEnemy = target; //
+            Debug.Log("now targe ==" + targetEnemy.name);
             player.stateMachine.ChangeState(StateName.IDLE_TARGET);
-        } 
-        else if(context.performed && isTargetting)
+        }
+        else if (context.performed && isTargetting)
         {
             isTargetting = false;
             player.stateMachine.ChangeState(StateName.IDLE);
@@ -137,7 +141,7 @@ public class PlayerController : MonoBehaviour
             else if (player.stateMachine.CurrentState is TargetState)
                 transform.forward = lookForward;
         }
-        
+
     }
 
     public void LookAt(Vector3 direction)
@@ -152,18 +156,32 @@ public class PlayerController : MonoBehaviour
     public void FindTarget()
     {
         Collider[] cols = Physics.OverlapSphere(transform.position, 10f, 1 << 6);
+        Transform closestTraget = null;
+        float maxDistnace = Mathf.Infinity;
 
         if (cols.Length > 0)
         {
-
             for (int i = 0; i < cols.Length; i++)
             {
                 if (cols[i].tag == "Enemy")
                 {
+                    float targetDistance = Vector3.Distance(transform.position, cols[i].transform.position);
+
+                    Vector3 targetDirection = (cols[i].transform.position - transform.position).normalized;
+                    float targetAngle = Vector3.Angle(targetDirection, transform.forward);
+
+                    if (targetDistance < maxDistnace && targetAngle < 90)
+                    {
+                        closestTraget = cols[i].transform;
+                        maxDistnace = targetDistance;
+                    }
                     Debug.Log("Physics Enemy : Target found");
-                    target = cols[i].gameObject.transform;
-                    Debug.Log(target.name);
                 }
+            }
+            if(closestTraget)
+            {
+            target = closestTraget;
+            Debug.Log(target.name);
             }
         }
         else

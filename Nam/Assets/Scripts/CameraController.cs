@@ -15,7 +15,10 @@ public class CameraController : MonoBehaviour
 
     void LateUpdate()
     {
-        LookAround();
+        if (!Player.Instance.Controller.isTargetting)
+            LookAround();
+        else
+            TargetLook();
         //transform.position = new Vector3(Target.transform.position.x, Target.transform.position.y + 2.5f, Target.transform.position.z - 4.5f);
     }
 
@@ -37,7 +40,8 @@ public class CameraController : MonoBehaviour
 
     private void TargetLook()
     {
-
+        mainCamera.LookAt(Player.Instance.Controller.targetEnemy);
+        transform.position = new Vector3(Target.transform.position.x, Target.transform.position.y + 1.7f, Target.transform.position.z);
     }
 
 }
