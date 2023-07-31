@@ -27,9 +27,8 @@ namespace UnitController
         private void TargetRoll()
         {
             dashDirection = new Vector3(Player.Instance.Controller.inputDirection.x, 0.0f, Player.Instance.Controller.inputDirection.z);
-            Player.Instance.animator.SetFloat("x", dashDirection.x);
-            Player.Instance.animator.SetFloat("y", dashDirection.z);
             Player.Instance.transform.forward = dashDirection;
+           // Player.Instance.Controller.LookAt(new Vector3(dashDirection.x, 0.0f, dashDirection.z));
 
             Player.Instance.animator.SetTrigger(Hash_targetRollTrigger);
             Player.Instance.animator.SetBool(Hash_targetRollBool, true);
