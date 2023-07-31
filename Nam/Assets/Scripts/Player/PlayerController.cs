@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
 
     IdleState idleState;
     RollState rollState;
+    TargetRollState targetrollState;
     TargetState targetState;
 
     Transform groundCheck;
@@ -34,6 +35,7 @@ public class PlayerController : MonoBehaviour
         idleState = player.stateMachine.GetState(StateName.IDLE) as IdleState;
         rollState = player.stateMachine.GetState(StateName.ROLL) as RollState;
         targetState = player.stateMachine.GetState(StateName.IDLE_TARGET) as TargetState;
+        targetrollState = player.stateMachine.GetState(StateName.TARGETROLL) as TargetRollState;
     }
 
     private void Update()
@@ -69,7 +71,12 @@ public class PlayerController : MonoBehaviour
             return;
         }
         if (context.performed)
-            player.stateMachine.ChangeState(StateName.ROLL);
+        {
+            if (player.stateMachine.CurrentState is IdleState)
+                player.stateMachine.ChangeState(StateName.ROLL);
+            else if (player.stateMachine.CurrentState is TargetState)
+                player.stateMachine.ChangeState(StateName.TARGETROLL);
+        }
     }
 
     public void OnSprintInput()
@@ -95,6 +102,8 @@ public class PlayerController : MonoBehaviour
         } 
         else if(context.performed && isTargetting)
         {
+            isTargetting = false;
+            player.stateMachine.ChangeState(StateName.IDLE);
         }
     }
 

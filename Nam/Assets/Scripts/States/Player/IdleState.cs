@@ -24,10 +24,7 @@ namespace UnitController
         public override void OnFixedUpdateState()
         {
             float moveSpeed = Player.Instance.moveSpeed + Player.Instance.statusSpeed;
-            //Player.Instance.Controller.LookAt(Player.Instance.Controller.inputDirection);
             Player.Instance.animator.SetFloat(Hash_moveAnim, Player.Instance.Controller.inputDirection.magnitude * moveSpeed);
-            //Player.Instance.animator.SetFloat("x", Player.Instance.Controller.inputDirection.x * moveSpeed);
-            //Player.Instance.animator.SetFloat("y", Player.Instance.Controller.inputDirection.z * moveSpeed);
             Player.Instance.transform.position += Player.Instance.Controller.moveDir.normalized * Time.deltaTime  * moveSpeed;
         }
 

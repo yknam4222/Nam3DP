@@ -33,6 +33,7 @@ namespace UnitController
 
         public override void OnExitState()
         {
+            Player.Instance.animator.SetBool(Hash_targetBool, false);
         }
     }
 }

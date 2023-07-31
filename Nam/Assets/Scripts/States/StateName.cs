@@ -5,6 +5,7 @@ namespace UnitController
         IDLE = 0,
         IDLE_TARGET,
         ROLL,
+        TARGETROLL,
         ATTACK,
         HIT,
         DIE
