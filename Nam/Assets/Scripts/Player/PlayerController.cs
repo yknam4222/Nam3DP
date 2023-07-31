@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviour
     public Vector3 inputDirection { get; private set; }
     public Vector3 moveDir { get; private set; }
 
+    public Vector3 lookForward { get; private set; }
+
     IdleState idleState;
     RollState rollState;
     TargetRollState targetrollState;
@@ -120,7 +122,7 @@ public class PlayerController : MonoBehaviour
     public void PlayerRotation()
     {
 
-        Vector3 lookForward = new Vector3(cameraArm.forward.x, 0f, cameraArm.forward.z).normalized;
+        lookForward = new Vector3(cameraArm.forward.x, 0f, cameraArm.forward.z).normalized;
         Vector3 lookRight = new Vector3(cameraArm.right.x, 0f, cameraArm.right.z).normalized;
         moveDir = lookForward * inputDirection.z + lookRight * inputDirection.x;
 

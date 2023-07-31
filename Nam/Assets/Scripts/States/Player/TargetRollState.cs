@@ -46,6 +46,7 @@ namespace UnitController
         {
             Player.Instance.animator.ResetTrigger(Hash_targetRollTrigger);
             Player.Instance.animator.SetBool(Hash_targetRollBool, false);
+            Player.Instance.transform.forward = Player.Instance.Controller.lookForward;
         }
     }
 }
