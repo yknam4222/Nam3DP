@@ -8,17 +8,23 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     private Transform mainCamera;
 
+    private Vector3 asd;
+
     void Start()
     {
         Target = Player.Instance.gameObject;
     }
-
-    void FixedUpdate()
+    private void Update()
     {
         if (!Player.Instance.Controller.isTargetting)
             LookAround();
         else
             TargetLook();
+        
+    }
+    void FixedUpdate()
+    {
+        SetPos();
         //transform.position = new Vector3(Target.transform.position.x, Target.transform.position.y + 2.5f, Target.transform.position.z - 4.5f);
     }
 
@@ -34,17 +40,22 @@ public class CameraController : MonoBehaviour
         else
             x = Mathf.Clamp(x, 335f, 361f);
 
-        Vector3 TargetPos = new Vector3(Target.transform.position.x, Target.transform.position.y + 1.7f, Target.transform.position.z);
         transform.rotation = Quaternion.Euler(x, canAngle.y + mouseDelta.x, canAngle.z);
-        //transform.position = Vector3.Lerp(transform.position, TargetPos, Time.deltaTime * 5.0f);
-        transform.position = new Vector3(Target.transform.position.x, Target.transform.position.y + 1.7f, Target.transform.position.z);
+        //transform.position = new Vector3(Target.transform.position.x, Target.transform.position.y + 1.7f, Target.transform.position.z);
+    }
+
+    private void SetPos()
+    {
+        Vector3 TargetPos = new Vector3(Target.transform.position.x, Target.transform.position.y + 1.7f, Target.transform.position.z);
+        transform.position = Vector3.Lerp(transform.position, TargetPos, Time.deltaTime * 5.0f);
     }
 
     private void TargetLook()
     {
-        Vector3 TargetPos = new Vector3(Target.transform.position.x, Target.transform.position.y + 1.7f, Target.transform.position.z);
-        transform.rotation = Quaternion.Euler(Player.Instance.Controller.inputDirection.x, 0.0f, Player.Instance.Controller.inputDirection.z);
-        transform.position = Vector3.Lerp(transform.position, TargetPos, Time.deltaTime * 5.0f);
+        Vector3 dir = Player.Instance.Controller.targetEnemy.position - transform.position;
+        transform.GetChild(0).rotation= Quaternion.Lerp(transform.GetChild(0).rotation, Quaternion.LookRotation(dir), 0.1f);
+        transform.rotation = transform.GetChild(0).rotation;
+        //transform.LookAt(Player.Instance.Controller.targetEnemy);
     }
 
 }

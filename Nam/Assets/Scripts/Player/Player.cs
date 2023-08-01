@@ -22,7 +22,7 @@ public class Player : MonoBehaviour
 
     #region Ä³¸¯ÅÍ ½ºÅİ
     public float MaxHP { get { return maxHP; } }
-    public float CurrentHP { get { return maxHP; } }
+    public float CurrentHP { get { return currentHP; } }
     public float moveSpeed { get; set; } = 3.0f;
     public float statusSpeed { get; set; } = 0.0f;
 

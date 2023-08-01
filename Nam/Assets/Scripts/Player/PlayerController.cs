@@ -136,7 +136,8 @@ public class PlayerController : MonoBehaviour
 
         lookForward = new Vector3(cameraArm.forward.x, 0f, cameraArm.forward.z).normalized;
         Vector3 lookRight = new Vector3(cameraArm.right.x, 0f, cameraArm.right.z).normalized;
-        moveDir = lookForward * inputDirection.z + lookRight * inputDirection.x;
+        //if (!isTargetting)
+            moveDir = lookForward * inputDirection.z + lookRight * inputDirection.x;
 
         bool isMove = inputDirection.magnitude != 0;
         if (isMove && !(player.stateMachine.CurrentState is RollState))
