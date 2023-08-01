@@ -45,10 +45,15 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        PlayerRotation();
         OnSprintInput();
         if (!isTargetting)
             FindTarget();
+    }
+
+    private void FixedUpdate()
+    {
+        PlayerRotation();
+        
     }
     public bool IsGrounded()
     {

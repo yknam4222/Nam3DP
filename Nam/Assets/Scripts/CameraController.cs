@@ -36,8 +36,8 @@ public class CameraController : MonoBehaviour
 
         Vector3 TargetPos = new Vector3(Target.transform.position.x, Target.transform.position.y + 1.7f, Target.transform.position.z);
         transform.rotation = Quaternion.Euler(x, canAngle.y + mouseDelta.x, canAngle.z);
-        transform.position = Vector3.Lerp(transform.position, TargetPos, Time.deltaTime * 5.0f);
-        //transform.position = new Vector3(Target.transform.position.x, Target.transform.position.y + 1.7f, Target.transform.position.z);
+        //transform.position = Vector3.Lerp(transform.position, TargetPos, Time.deltaTime * 5.0f);
+        transform.position = new Vector3(Target.transform.position.x, Target.transform.position.y + 1.7f, Target.transform.position.z);
     }
 
     private void TargetLook()
