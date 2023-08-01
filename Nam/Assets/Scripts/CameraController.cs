@@ -13,7 +13,7 @@ public class CameraController : MonoBehaviour
         Target = Player.Instance.gameObject;
     }
 
-    void LateUpdate()
+    void FixedUpdate()
     {
         if (!Player.Instance.Controller.isTargetting)
             LookAround();
@@ -34,14 +34,17 @@ public class CameraController : MonoBehaviour
         else
             x = Mathf.Clamp(x, 335f, 361f);
 
+        Vector3 TargetPos = new Vector3(Target.transform.position.x, Target.transform.position.y + 1.7f, Target.transform.position.z);
         transform.rotation = Quaternion.Euler(x, canAngle.y + mouseDelta.x, canAngle.z);
-        transform.position = new Vector3(Target.transform.position.x, Target.transform.position.y + 1.7f, Target.transform.position.z);
+        transform.position = Vector3.Lerp(transform.position, TargetPos, Time.deltaTime * 5.0f);
+        //transform.position = new Vector3(Target.transform.position.x, Target.transform.position.y + 1.7f, Target.transform.position.z);
     }
 
     private void TargetLook()
     {
-        mainCamera.LookAt(Player.Instance.Controller.targetEnemy);
-        transform.position = new Vector3(Target.transform.position.x, Target.transform.position.y + 1.7f, Target.transform.position.z);
+        Vector3 TargetPos = new Vector3(Target.transform.position.x, Target.transform.position.y + 1.7f, Target.transform.position.z);
+        transform.rotation = Quaternion.Euler(Player.Instance.Controller.inputDirection.x, 0.0f, Player.Instance.Controller.inputDirection.z);
+        transform.position = Vector3.Lerp(transform.position, TargetPos, Time.deltaTime * 5.0f);
     }
 
 }
