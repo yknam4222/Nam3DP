@@ -53,8 +53,7 @@ public class CameraController : MonoBehaviour
     private void TargetLook()
     {
         Vector3 dir = Player.Instance.Controller.targetEnemy.position - transform.position;
-        transform.GetChild(0).rotation= Quaternion.Lerp(transform.GetChild(0).rotation, Quaternion.LookRotation(dir), 0.1f);
-        transform.rotation = transform.GetChild(0).rotation;
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime);
         //transform.LookAt(Player.Instance.Controller.targetEnemy);
     }
 
