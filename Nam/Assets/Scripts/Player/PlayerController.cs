@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
     RollState rollState;
     TargetRollState targetrollState;
     TargetState targetState;
+    AttackState attackState;
 
     Transform groundCheck;
     private int groundLayer;
@@ -41,6 +42,9 @@ public class PlayerController : MonoBehaviour
         rollState = player.stateMachine.GetState(StateName.ROLL) as RollState;
         targetState = player.stateMachine.GetState(StateName.IDLE_TARGET) as TargetState;
         targetrollState = player.stateMachine.GetState(StateName.TARGETROLL) as TargetRollState;
+        attackState = player.stateMachine.GetState(StateName.ATTACK) as AttackState;
+
+        player.stateMachine.PastState = idleState;
     }
 
     private void Update()
@@ -53,7 +57,7 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         PlayerRotation();
-        
+
     }
     public bool IsGrounded()
     {
@@ -113,11 +117,28 @@ public class PlayerController : MonoBehaviour
             targetEnemy = target; //
             Debug.Log("now targe ==" + targetEnemy.name);
             player.stateMachine.ChangeState(StateName.IDLE_TARGET);
+            player.stateMachine.PastState = targetState;
         }
         else if (context.performed && isTargetting)
         {
             isTargetting = false;
             player.stateMachine.ChangeState(StateName.IDLE);
+        }
+    }
+
+    public void OnAttack(InputAction.CallbackContext context)
+    {
+        if (player.isDied)
+            return;
+
+        if (context.performed)
+        {
+            BaseState currentState = player.stateMachine.CurrentState;
+
+            if (currentState is RollState || currentState is TargetRollState)
+                return;
+
+            player.stateMachine.ChangeState(StateName.ATTACK);
         }
     }
 
@@ -137,7 +158,7 @@ public class PlayerController : MonoBehaviour
         lookForward = new Vector3(cameraArm.forward.x, 0f, cameraArm.forward.z).normalized;
         Vector3 lookRight = new Vector3(cameraArm.right.x, 0f, cameraArm.right.z).normalized;
         //if (!isTargetting)
-            moveDir = lookForward * inputDirection.z + lookRight * inputDirection.x;
+        moveDir = lookForward * inputDirection.z + lookRight * inputDirection.x;
 
         bool isMove = inputDirection.magnitude != 0;
         if (isMove && !(player.stateMachine.CurrentState is RollState))
@@ -184,10 +205,10 @@ public class PlayerController : MonoBehaviour
                     Debug.Log("Physics Enemy : Target found");
                 }
             }
-            if(closestTraget)
+            if (closestTraget)
             {
-            target = closestTraget;
-            Debug.Log(target.name);
+                target = closestTraget;
+                Debug.Log(target.name);
             }
         }
         else

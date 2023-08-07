@@ -8,6 +8,7 @@ namespace UnitController
     public class StateMachine
     {
         public BaseState CurrentState { get; private set; }
+        public BaseState PastState { get;  set; }
         private Dictionary<StateName, BaseState> states = new Dictionary<StateName, BaseState>();
       
         public StateMachine(StateName stateName, BaseState state)

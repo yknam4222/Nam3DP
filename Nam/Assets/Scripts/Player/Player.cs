@@ -77,5 +77,6 @@ public class Player : MonoBehaviour
         stateMachine.AddState(StateName.ROLL, new RollState());
         stateMachine.AddState(StateName.IDLE_TARGET, new TargetState());
         stateMachine.AddState(StateName.TARGETROLL, new TargetRollState());
+        stateMachine.AddState(StateName.ATTACK, new AttackState());
     }
 }
