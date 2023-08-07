@@ -138,7 +138,24 @@ public class PlayerController : MonoBehaviour
             if (currentState is RollState || currentState is TargetRollState)
                 return;
 
-            player.stateMachine.ChangeState(StateName.ATTACK);
+            if(!attackState.isAttack)
+                player.stateMachine.ChangeState(StateName.ATTACK);
+        }
+    }
+
+    public void OnHeal(InputAction.CallbackContext context)
+    {
+        if (player.isDied)
+            return;
+
+        if(context.performed)
+        {
+            BaseState currentState = player.stateMachine.CurrentState;
+
+            if (currentState is RollState || currentState is TargetRollState || currentState is AttackState)
+                return;
+
+            player.animator.SetTrigger("HealTrigger");
         }
     }
 
