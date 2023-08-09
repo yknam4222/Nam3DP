@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnitController;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, ISoundPlayable
 {
     public bool isDied { get; private set; } = false;
     public static Player Instance { get { return instance; } }
@@ -78,5 +78,9 @@ public class Player : MonoBehaviour
         stateMachine.AddState(StateName.IDLE_TARGET, new TargetState());
         stateMachine.AddState(StateName.TARGETROLL, new TargetRollState());
         stateMachine.AddState(StateName.ATTACK, new AttackState());
+    }
+
+    public void PlaySound(string _key)
+    {
     }
 }
