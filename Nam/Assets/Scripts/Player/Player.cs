@@ -23,6 +23,11 @@ public class Player : MonoBehaviour, ISoundPlayable
     #region 캐릭터 스텟
     public float MaxHP { get { return maxHP; } }
     public float CurrentHP { get { return currentHP; } }
+    public float MaxMP { get { return maxMP; } }
+    public float CurrentMP { get { return currentMP; } }
+    public float MaxST { get { return maxST; } }
+    public float CurrentST { get { return currentST; } }
+
     public float moveSpeed { get; set; } = 3.0f;
     public float statusSpeed { get; set; } = 0.0f;
 
@@ -30,6 +35,10 @@ public class Player : MonoBehaviour, ISoundPlayable
 
     [SerializeField] protected float maxHP;
     [SerializeField] protected float currentHP;
+    [SerializeField] protected float maxMP;
+    [SerializeField] protected float currentMP;
+    [SerializeField] protected float maxST;
+    [SerializeField] protected float currentST;
 
     [SerializeField] private float currentSpeed; //테스트용
     #endregion
