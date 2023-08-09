@@ -14,7 +14,7 @@ public class SoundManager : MonoBehaviour
     {
         if(Instance == null)
         {
-            Instance = new SoundManager();
+            Instance = this;
             DontDestroyOnLoad(this.gameObject);
         }
         else 
@@ -48,6 +48,21 @@ public class SoundManager : MonoBehaviour
         audioSource.clip = soundDictionary[_key];
         audioSource.loop = true;
         audioSource.Play();
+    }
+
+    public void StopBGM()
+    {
+        audioSource.Stop();
+    }
+
+    public void AddSoundClip(AudioClip _clip)
+    {
+        if (soundDictionary.ContainsKey(_clip.name))
+        {
+            Debug.Log("¿÷¿Ω");
+        }
+
+        soundDictionary[_clip.name] = _clip;
     }
 
     void Start()

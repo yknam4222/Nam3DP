@@ -8,14 +8,18 @@ namespace UnitController
     {
         public bool isAttack { get; set; } = false;
         public int Hash_attackisBool { get; private set; }
+        public int Hash_attackNum { get; private set; }
 
         public AttackState()
         {
             Hash_attackisBool = Animator.StringToHash("isAttack");
+            Hash_attackNum = Animator.StringToHash("AttackNum");
         }
 
         public override void OnEnterState()
         {
+            int attacknum = Random.Range(1, 3);
+            Player.Instance.animator.SetInteger(Hash_attackNum, attacknum);
             Player.Instance.animator.SetBool(Hash_attackisBool, true);
             isAttack = true;
         }

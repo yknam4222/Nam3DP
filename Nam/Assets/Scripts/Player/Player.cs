@@ -82,5 +82,6 @@ public class Player : MonoBehaviour, ISoundPlayable
 
     public void PlaySound(string _key)
     {
+        SoundManager.Instance.PlayBGM(_key);
     }
 }
