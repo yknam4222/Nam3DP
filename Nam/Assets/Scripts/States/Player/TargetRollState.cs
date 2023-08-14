@@ -33,6 +33,9 @@ namespace UnitController
 
             Player.Instance.animator.SetTrigger(Hash_targetRollTrigger);
             Player.Instance.animator.SetBool(Hash_targetRollBool, true);
+
+            Player.Instance.CurrentST -= 60;
+            StatManager.Instance.Charge();
         }
 
         public override void OnUpdateState()

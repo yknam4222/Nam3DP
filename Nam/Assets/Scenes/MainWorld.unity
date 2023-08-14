@@ -2208,8 +2208,8 @@ MonoBehaviour:
   weaponRight: {fileID: 0}
   maxHP: 400
   currentHP: 400
-  maxMP: 200
-  currentMP: 200
+  maxMP: 150
+  currentMP: 150
   maxST: 300
   currentST: 300
   potionCount: 4
@@ -2602,9 +2602,9 @@ MonoBehaviour:
   HpBar: {fileID: 1298786072}
   HpBar_In: {fileID: 182760884}
   MpBar: {fileID: 198875735}
-  MpBar_In: {fileID: 0}
+  MpBar_In: {fileID: 27298198}
   StBar: {fileID: 929059068}
-  StBar_In: {fileID: 0}
+  StBar_In: {fileID: 6832110}
 --- !u!4 &1688471267
 Transform:
   m_ObjectHideFlags: 0

@@ -86,13 +86,12 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
-        if (context.performed && Player.Instance.currentSt > 80)
+        if (context.performed && Player.Instance.CurrentST > 60)
         {
             if (player.stateMachine.CurrentState is IdleState)
                 player.stateMachine.ChangeState(StateName.ROLL);
             else if (player.stateMachine.CurrentState is TargetState)
                 player.stateMachine.ChangeState(StateName.TARGETROLL);
-
         }
     }
 
@@ -101,10 +100,12 @@ public class PlayerController : MonoBehaviour
         if (player.isDied)
             return;
 
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift) && Player.Instance.CurrentST > 10)
         {
             if (player.moveSpeed < 6.0f)
                 player.moveSpeed += Time.deltaTime * 5.0f;
+
+            Player.Instance.CurrentST -= Time.deltaTime * 3.0f;
         }
         else if (Input.GetKeyUp(KeyCode.LeftShift))
             StartCoroutine(setspeed());

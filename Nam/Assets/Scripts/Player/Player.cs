@@ -21,19 +21,25 @@ public class Player : MonoBehaviour, ISoundPlayable
     private static Player instance;
 
     #region 캐릭터 스텟
-    [SerializeField]
-    public float maxHp { get; set; }
-    public float currentHp { get; set; }
-    public float maxMp { get; set; }
-    public float currentMp { get; set; }
-    public float maxSt { get; set; }
-    public float currentSt { get; set; }
-    public int potionCount { get; set; }
-
+    public float MaxHP { get { return maxHP; } set { maxHP = value; } }
+    public float CurrentHP { get { return currentHP; } set { currentHP = value; } }
+    public float MaxMP { get { return maxMP; } set { maxMP = value; } } 
+    public float CurrentMP { get { return currentMP; } set { currentMP = value; } }
+    public float MaxST { get { return maxST; } set { maxST = value; } }
+    public float CurrentST { get { return currentST; } set { currentST = value; } }
+    public int PotionCount { get { return potionCount; } set { potionCount = value; } }
     public float moveSpeed { get; set; } = 3.0f;
     public float statusSpeed { get; set; } = 0.0f;
 
     public float CurrnetSpeed { get { return currentSpeed; } }
+
+    [SerializeField] protected float maxHP;
+    [SerializeField] protected float currentHP;
+    [SerializeField] protected float maxMP;
+    [SerializeField] protected float currentMP;
+    [SerializeField] protected float maxST;
+    [SerializeField] protected float currentST;
+    [SerializeField] protected int potionCount;
 
     [SerializeField] private float currentSpeed; //테스트용
     #endregion
@@ -70,12 +76,12 @@ public class Player : MonoBehaviour, ISoundPlayable
 
     public void OnUpdateStats(float maxHP, float currentHP, float maxMP, float currentMP, float maxST, float currentST, int potionCount)
     {
-        this.maxHp = maxHP;
-        this.currentHp = currentHP;
-        this.maxMp = maxMP;
-        this.currentMp = currentMP;
-        this.maxSt = maxST;
-        this.currentSt = currentST;
+        this.maxHP = maxHP;
+        this.currentHP = currentHP;
+        this.maxMP = maxMP;
+        this.currentMP = currentMP;
+        this.maxST = maxST;
+        this.currentST = currentST;
         this.potionCount = potionCount;
     }
 
