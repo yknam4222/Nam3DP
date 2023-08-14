@@ -12,7 +12,9 @@ public class StatManager : MonoBehaviour
     [SerializeField] private Slider HpBar; 
     [SerializeField] private Slider HpBar_In; 
     [SerializeField] private Slider MpBar; 
-    [SerializeField] private Slider StBar; 
+    [SerializeField] private Slider MpBar_In; 
+    [SerializeField] private Slider StBar;
+    [SerializeField] private Slider StBar_In; 
 
     private void Awake()
     {
@@ -34,28 +36,27 @@ public class StatManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            HpBar.value = 0.7f;
-        }
-        if(Input.GetMouseButtonDown(1))
-            StartCoroutine(UpdateHpValue());
-
+       
     }
 
     public void UpdatePlayerStats()
     {
-        HpBar.GetComponent<RectTransform>().sizeDelta = new Vector2(Player.Instance.MaxHP, 50);
-        MpBar.GetComponent<RectTransform>().sizeDelta = new Vector2(Player.Instance.MaxMP, 50);
-        StBar.GetComponent<RectTransform>().sizeDelta = new Vector2(Player.Instance.MaxST, 50);
+        HpBar.GetComponent<RectTransform>().sizeDelta = new Vector2(Player.Instance.maxHp, 50);
+        MpBar.GetComponent<RectTransform>().sizeDelta = new Vector2(Player.Instance.maxMp, 50);
+        StBar.GetComponent<RectTransform>().sizeDelta = new Vector2(Player.Instance.maxSt, 50);
+
+        HpBar.maxValue = HpBar_In.maxValue = Player.Instance.maxHp;
+        MpBar.maxValue = MpBar_In.maxValue = Player.Instance.maxMp;
+        StBar.maxValue = StBar_In.maxValue = Player.Instance.maxSt;
     }
 
     public IEnumerator UpdateHpValue()
     {
+        yield return new WaitForSeconds(1.0f);
 
-        while(HpBar_In.value < 0.7f)
+        while(HpBar_In.value > HpBar.value)
         {
-                HpBar_In.value -= Time.deltaTime * 5f;
+            HpBar_In.value -= Time.deltaTime * 5f;
 
             yield return null;
         }

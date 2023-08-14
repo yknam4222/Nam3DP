@@ -86,12 +86,13 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
-        if (context.performed)
+        if (context.performed && Player.Instance.currentSt > 80)
         {
             if (player.stateMachine.CurrentState is IdleState)
                 player.stateMachine.ChangeState(StateName.ROLL);
             else if (player.stateMachine.CurrentState is TargetState)
                 player.stateMachine.ChangeState(StateName.TARGETROLL);
+
         }
     }
 
