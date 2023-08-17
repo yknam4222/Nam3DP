@@ -10,6 +10,7 @@ public class StatManager : MonoBehaviour
     private static StatManager instance;
 
     public Slider _StBar { get { return StBar; } }
+    public Slider _StBarIn { get { return StBar_In; } }
 
     [SerializeField] private Slider HpBar; 
     [SerializeField] private Slider HpBar_In; 
@@ -80,10 +81,20 @@ public class StatManager : MonoBehaviour
         }
     }
 
+    public IEnumerator DecreaseValue()
+    {
+        yield return new WaitForSeconds(1.0f);
+
+        while(StBar_In.value > StBar.value)
+        {
+            StBar_In.value -= Time.deltaTime * 5.0f;
+
+            yield return null;
+        }
+    }
+
     public void Charge()
     {
-        StopCoroutine(ChargeCoroutine());
-        StartCoroutine(ChargeCoroutine());
     }
 
     public IEnumerator ChargeCoroutine()
