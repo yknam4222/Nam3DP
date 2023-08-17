@@ -6,6 +6,7 @@ using UnitController;
 public class Player : MonoBehaviour, ISoundPlayable
 {
     public bool isDied { get; private set; } = false;
+
     public static Player Instance { get { return instance; } }
     public Rigidbody rigidBody { get; private set; }
     public Animator animator { get; private set; }
@@ -43,6 +44,8 @@ public class Player : MonoBehaviour, ISoundPlayable
 
     [SerializeField] private float currentSpeed; //테스트용
     #endregion
+
+    public bool chargingST { get; set; } = true;
 
     private void Awake()
     {

@@ -35,7 +35,7 @@ namespace UnitController
             Player.Instance.animator.SetBool(Hash_targetRollBool, true);
 
             Player.Instance.CurrentST -= 60;
-            StatManager.Instance.Charge();
+            Player.Instance.Controller.UseST(1.5f);
         }
 
         public override void OnUpdateState()

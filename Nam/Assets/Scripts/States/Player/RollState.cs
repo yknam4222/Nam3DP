@@ -27,6 +27,7 @@ namespace UnitController
             Player.Instance.animator.SetTrigger(Hash_rollTrigger);
             Player.Instance.animator.SetBool(Hash_rollisBool, true);
             Player.Instance.CurrentST -= 60;
+            Player.Instance.Controller.UseST(1.5f);
         }
         public override void OnUpdateState()
         {

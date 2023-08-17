@@ -33,6 +33,8 @@ public class PlayerController : MonoBehaviour
 
     public bool isTargetting { get; private set; } = false;
 
+    Coroutine co = null;
+
     private void Start()
     {
         player = GetComponent<Player>();
@@ -52,6 +54,11 @@ public class PlayerController : MonoBehaviour
         OnSprintInput();
         if (!isTargetting)
             FindTarget();
+
+        if (Player.Instance.CurrentST < Player.Instance.MaxST && Player.Instance.chargingST)
+            Player.Instance.CurrentST += Time.deltaTime * 150.0f;
+
+        Debug.Log(Player.Instance.chargingST);
     }
 
     private void FixedUpdate()
@@ -100,15 +107,19 @@ public class PlayerController : MonoBehaviour
         if (player.isDied)
             return;
 
-        if (Input.GetKey(KeyCode.LeftShift) && Player.Instance.CurrentST > 10)
+        if (Input.GetKey(KeyCode.LeftShift) && Player.Instance.CurrentST > 0)
         {
             if (player.moveSpeed < 6.0f)
                 player.moveSpeed += Time.deltaTime * 5.0f;
 
-            Player.Instance.CurrentST -= Time.deltaTime * 3.0f;
+            Player.Instance.CurrentST -= Time.deltaTime * 15.0f;
+            Player.Instance.chargingST = false;
         }
-        else if (Input.GetKeyUp(KeyCode.LeftShift))
+        else if (Input.GetKeyUp(KeyCode.LeftShift) || Player.Instance.CurrentST < 5)
+        {
             StartCoroutine(setspeed());
+            UseST(1.0f);
+        }
     }
 
     public void OnTargetEnemy(InputAction.CallbackContext context)
@@ -133,7 +144,7 @@ public class PlayerController : MonoBehaviour
         if (player.isDied)
             return;
 
-        if (context.performed)
+        if (context.performed && Player.Instance.CurrentST > 40)
         {
             BaseState currentState = player.stateMachine.CurrentState;
 
@@ -169,6 +180,23 @@ public class PlayerController : MonoBehaviour
 
             yield return null;
         }
+    }
+
+    public void UseST(float coolTime)
+    {
+        if (Player.Instance.chargingST)
+            Player.Instance.chargingST = false;
+
+        if (co != null)
+            StopCoroutine(co);
+        co = StartCoroutine(StCoolTime(coolTime));
+        StatManager.Instance.SliderUpdate(StatManager.Instance._StBar, StatManager.Instance._StBarIn);
+    }
+
+    public IEnumerator StCoolTime(float coolTime)
+    {
+        yield return new WaitForSeconds(coolTime);
+        Player.Instance.chargingST = true;
     }
 
     public void PlayerRotation()

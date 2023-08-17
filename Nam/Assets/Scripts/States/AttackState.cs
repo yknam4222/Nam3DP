@@ -22,6 +22,8 @@ namespace UnitController
             Player.Instance.animator.SetInteger(Hash_attackNum, attacknum);
             Player.Instance.animator.SetBool(Hash_attackisBool, true);
             isAttack = true;
+            Player.Instance.CurrentST -= 40;
+            Player.Instance.Controller.UseST(1.5f);
         }
 
         public override void OnUpdateState()

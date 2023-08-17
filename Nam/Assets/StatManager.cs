@@ -12,12 +12,14 @@ public class StatManager : MonoBehaviour
     public Slider _StBar { get { return StBar; } }
     public Slider _StBarIn { get { return StBar_In; } }
 
-    [SerializeField] private Slider HpBar; 
-    [SerializeField] private Slider HpBar_In; 
-    [SerializeField] private Slider MpBar; 
-    [SerializeField] private Slider MpBar_In; 
+    [SerializeField] private Slider HpBar;
+    [SerializeField] private Slider HpBar_In;
+    [SerializeField] private Slider MpBar;
+    [SerializeField] private Slider MpBar_In;
     [SerializeField] private Slider StBar;
-    [SerializeField] private Slider StBar_In; 
+    [SerializeField] private Slider StBar_In;
+
+    Coroutine co = null;
 
     private void Awake()
     {
@@ -39,7 +41,12 @@ public class StatManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        HpBar.value = Player.Instance.CurrentHP;
+        MpBar.value = Player.Instance.CurrentMP;
         StBar.value = Player.Instance.CurrentST;
+
+        if (StBar.value > StBar_In.value)
+            StBar_In.value = StBar.value;
     }
 
     public void UpdatePlayerStats()
@@ -47,8 +54,6 @@ public class StatManager : MonoBehaviour
         HpBar.GetComponent<RectTransform>().sizeDelta = new Vector2(Player.Instance.MaxHP, 50);
         MpBar.GetComponent<RectTransform>().sizeDelta = new Vector2(Player.Instance.MaxMP, 50);
         StBar.GetComponent<RectTransform>().sizeDelta = new Vector2(Player.Instance.MaxST, 50);
-
-        StBar.onValueChanged.AddListener(delegate { OnStChanged(); });
 
         HpBar.maxValue = HpBar_In.maxValue = Player.Instance.MaxHP;
         MpBar.maxValue = MpBar_In.maxValue = Player.Instance.MaxMP;
@@ -59,52 +64,27 @@ public class StatManager : MonoBehaviour
         StBar.value = StBar_In.value = StBar.maxValue;
     }
 
-    void OnStChanged()
+    public void onValueChanged()
     {
-        
+
+    }
+
+    public void SliderUpdate(Slider UpSlider, Slider UnderSlider)
+    {
+        if (co != null)
+            StopCoroutine(co);
+        co = StartCoroutine(UpdateValue(UpSlider, UnderSlider));
     }
 
     public IEnumerator UpdateValue(Slider UpSlider, Slider UnderSlider)
     {
-        float test = 0;
-        if (UpSlider.value > UnderSlider.value)
-            test = UpSlider.value - UnderSlider.value;
-        else
-            test = UnderSlider.value = UpSlider.value;
         yield return new WaitForSeconds(1.0f);
 
-        while(UnderSlider.value > UpSlider.value)
+        float gap = UnderSlider.value - UpSlider.value;
+
+        while (UnderSlider.value > UpSlider.value)
         {
-            UnderSlider.value -= Time.deltaTime * test;
-
-            yield return null;
-        }
-    }
-
-    public IEnumerator DecreaseValue()
-    {
-        yield return new WaitForSeconds(1.0f);
-
-        while(StBar_In.value > StBar.value)
-        {
-            StBar_In.value -= Time.deltaTime * 5.0f;
-
-            yield return null;
-        }
-    }
-
-    public void Charge()
-    {
-    }
-
-    public IEnumerator ChargeCoroutine()
-    {
-        yield return new WaitForSeconds(1.0f);
-
-        while(Player.Instance.CurrentST< Player.Instance.MaxST)
-        {
-            Player.Instance.CurrentST += Time.deltaTime * 50.0f;
-
+                UnderSlider.value -= Time.deltaTime * gap;
             yield return null;
         }
     }
